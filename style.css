@@ -1,0 +1,2984 @@
+/* ===================================================================
+   VƯỜN THANH LONG 3D ONLINE - LUXURY CYBER-AGRI UI THEME
+   Engineered for Ultra-Premium, Immersive & Cinematic Gameplay
+   =================================================================== */
+
+/* Local High-Performance Space Grotesk Font (Instant 0ms Load, Zero FOUT, Zero Waterfall) */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: block;
+  src: url('fonts/spacegrotesk-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: block;
+  src: url('fonts/spacegrotesk-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: block;
+  src: url('fonts/spacegrotesk-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* Brand Gemstone Palette */
+  --rose-core: #ff1361;
+  --rose-bright: #ff3378;
+  --rose-glow: rgba(255, 19, 97, 0.45);
+  --rose-deep: #b3003b;
+
+  --jade-core: #00f298;
+  --jade-glow: rgba(0, 242, 152, 0.42);
+  --jade-deep: #008f58;
+
+  --gold-core: #ffbe0b;
+  --gold-glow: rgba(255, 190, 11, 0.45);
+  --gold-light: #ffe28a;
+
+  --cyan-core: #00e5ff;
+  --cyan-glow: rgba(0, 229, 255, 0.45);
+
+  /* Crystal Aero Glass Foundations (Luminous, Frosted, Zero Muddy Black) */
+  --bg-dark: #08101e;
+  --glass-base: rgba(15, 25, 45, 0.45);
+  --glass-card: rgba(18, 32, 58, 0.55);
+  --glass-hover: rgba(28, 48, 82, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.22);
+  --glass-border-bright: rgba(255, 255, 255, 0.42);
+  --glass-highlight: rgba(255, 255, 255, 0.45);
+  --glass-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.12);
+
+  /* Typography: Space Grotesk */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+}
+
+/* Lucide React-style SVG Icons */
+.lucide {
+  width: 1.15em;
+  height: 1.15em;
+  stroke-width: 2.2px;
+  stroke: currentColor;
+  fill: none;
+  display: inline-block;
+  vertical-align: -0.16em;
+  flex-shrink: 0;
+  transition: transform 0.18s ease, stroke 0.18s ease;
+}
+
+button:hover .lucide {
+  stroke-width: 2.4px;
+}
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  scrollbar-width: none !important;
+  /* Firefox */
+  -ms-overflow-style: none !important;
+  /* IE / Edge Legacy */
+}
+
+/* Ẩn hoàn toàn tất cả thanh cuộn (Scrollbar) trên toàn bộ game */
+::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  touch-action: none; /* Ngăn chặn cử chỉ cuộn mặc định của trình duyệt để vuốt xoay 3D mượt mà */
+  font-family: var(--font-sans);
+  background: var(--bg-dark);
+  color: #f8fafc;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+/* 3D Viewport Layer */
+#world-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  touch-action: none;
+}
+
+#world-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  touch-action: none;
+}
+
+/* 3D Floating HTML Labels Container */
+#labels-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.player-label-3d {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.nametag-3d {
+  background: linear-gradient(135deg, rgba(20, 36, 68, 0.75) 0%, rgba(10, 20, 42, 0.88) 100%);
+  backdrop-filter: blur(16px) saturate(190%);
+  -webkit-backdrop-filter: blur(16px);
+  color: #f8fafc;
+  padding: 4px 10px 4px 12px;
+  border-radius: 20px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  border: none;
+  background: rgba(14, 20, 36, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.55), 0 0 15px rgba(255, 19, 97, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+  pointer-events: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nametag-3d.is-self {
+  border: none;
+  background: rgba(24, 18, 36, 0.75);
+  box-shadow: 0 8px 26px -4px rgba(0, 0, 0, 0.65), 0 0 20px rgba(255, 190, 11, 0.35);
+}
+
+.nametag-3d.is-self .nametag-text {
+  background: linear-gradient(135deg, #ffffff 30%, var(--gold-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+}
+
+.nametag-score {
+  background: rgba(255, 19, 97, 0.35);
+  border: none;
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 12px;
+  font-weight: 900;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nametag-score .score-num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.dragonfruit-badge-icon {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 4px rgba(255, 19, 97, 0.6));
+  flex-shrink: 0;
+}
+
+.chat-bubble-3d {
+  background: rgba(255, 255, 255, 0.98);
+  color: #0f172a;
+  padding: 8px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+  max-width: 240px;
+  text-align: center;
+  margin-bottom: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.38), 0 0 0 1.5px var(--rose-core);
+  position: relative;
+  animation: popBubble 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.chat-bubble-3d::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px 7px 0;
+  border-style: solid;
+  border-color: #ffffff transparent;
+}
+
+@keyframes popBubble {
+  from {
+    transform: scale(0.4) translateY(10px);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.pillar-marker-3d {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  background: linear-gradient(135deg, #ff1361, #ff5e36);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px var(--rose-glow);
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+  animation: floatMarker 1.6s infinite ease-in-out alternate;
+}
+
+@keyframes floatMarker {
+  0% {
+    transform: translate(-50%, -100%) translateY(0);
+  }
+
+  100% {
+    transform: translate(-50%, -100%) translateY(-8px);
+  }
+}
+
+/* ===================================================================
+   LOGIN / CHARACTER SELECTION OVERLAY (AAA Game Splash)
+   =================================================================== */
+.overlay-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 22%, rgba(52, 14, 44, 0.90) 0%, rgba(14, 22, 40, 0.95) 55%, rgba(5, 8, 18, 0.98) 100%);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px);
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Atmospheric Dragon Fruit Orchard Ambient Orbs (Hương sắc vườn thanh long đêm chong đèn) */
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(85px);
+  opacity: 0.65;
+  z-index: 0;
+}
+
+.orb-dragonfruit,
+.orb-pink {
+  width: 540px;
+  height: 540px;
+  background: radial-gradient(circle, rgba(255, 19, 97, 0.40) 0%, transparent 70%);
+  top: -120px;
+  left: -100px;
+  animation: orbDrift1 12s infinite alternate ease-in-out;
+}
+
+.orb-foliage,
+.orb-emerald {
+  width: 490px;
+  height: 490px;
+  background: radial-gradient(circle, rgba(0, 242, 152, 0.26) 0%, transparent 70%);
+  bottom: -100px;
+  right: -80px;
+  animation: orbDrift2 14s infinite alternate ease-in-out;
+}
+
+.orb-lamp,
+.orb-gold {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.24) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: orbDrift3 10s infinite alternate ease-in-out;
+}
+
+@keyframes orbDrift1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(40px, 30px) scale(1.1);
+  }
+}
+
+@keyframes orbDrift2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(-30px, -40px) scale(1.12);
+  }
+}
+
+@keyframes orbDrift3 {
+  0% {
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 0.7;
+  }
+}
+
+/* ===================================================================
+   AAA GAME LOGIN / WELCOME SCREEN (Sleek Matte Obsidian - No White Borders - No Glass)
+   =================================================================== */
+.login-card {
+  position: relative;
+  z-index: 2;
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 26px 24px 28px;
+  width: 100%;
+  max-width: 410px;
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.85), 0 0 35px rgba(255, 19, 97, 0.12);
+  text-align: center;
+  overflow: hidden;
+  animation: cardSoftFade 0.25s ease-out;
+}
+
+@keyframes cardSoftFade {
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.login-top-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: #94a3b8;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.tag-divider {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.server-title {
+  color: #34d399;
+  font-weight: 800;
+}
+
+.online-pill {
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.online-pill b {
+  color: #ffffff;
+}
+
+.login-logo-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.logo-icon-emblem {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  background: #1e293b;
+  border: 1px solid rgba(255, 19, 97, 0.35);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(255, 19, 97, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.welcome-df-svg {
+  filter: drop-shadow(0 3px 8px rgba(255, 19, 97, 0.5));
+}
+
+.login-logo-lockup h1 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.login-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group {
+  text-align: left;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #94a3b8;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.form-group label .lucide {
+  width: 14px;
+  height: 14px;
+  color: #ff1361;
+}
+
+/* Name Input Row with Quick Random Dice Button */
+.name-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+#player-name-input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+#player-name-input:focus {
+  border-color: #ff1361;
+  box-shadow: 0 0 14px rgba(255, 19, 97, 0.35);
+}
+
+.random-name-dice {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 12px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #00f298;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.random-name-dice:hover {
+  background: #27354d;
+  color: #34d399;
+  border-color: #00f298;
+  transform: translateY(-2px);
+}
+
+.random-name-dice:active {
+  transform: scale(0.92);
+}
+
+.random-name-dice .lucide {
+  width: 18px;
+  height: 18px;
+}
+
+/* Color Swatches (No White Borders) */
+.color-picker-row {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.color-swatch {
+  flex: 1;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--swatch-color);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.color-swatch:hover {
+  transform: translateY(-2px);
+}
+
+.color-swatch.active {
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 0 16px var(--swatch-color), inset 0 0 0 2.5px rgba(0, 0, 0, 0.55);
+}
+
+/* Hat Picker (Clean Tabs - No White Borders) */
+.hat-picker-row {
+  display: flex;
+  gap: 8px;
+}
+
+.hat-btn {
+  flex: 1;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.hat-btn:hover {
+  background: #27354d;
+  color: #f1f5f9;
+}
+
+.hat-btn.active {
+  background: linear-gradient(135deg, rgba(0, 242, 152, 0.18) 0%, rgba(16, 185, 129, 0.3) 100%);
+  border: 1px solid #00f298;
+  color: #00f298;
+  box-shadow: 0 0 14px rgba(0, 242, 152, 0.25);
+}
+
+.hat-name {
+  font-weight: 800;
+}
+
+/* Enter Garden Button (Punchy & Modern) */
+.primary-3d-btn.enter-garden-btn {
+  width: 100%;
+  padding: 14px 20px;
+  margin-top: 6px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ff1361 0%, #ff5722 55%, #f59e0b 100%);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 8px 25px rgba(255, 19, 97, 0.45);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.primary-3d-btn.enter-garden-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255, 19, 97, 0.6);
+}
+
+.primary-3d-btn.enter-garden-btn:active {
+  transform: scale(0.97);
+}
+
+.enter-garden-btn .lucide {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-shine {
+  position: absolute;
+  top: -50%;
+  left: -70%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: rotate(30deg);
+  animation: shineSweep 4s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes shineSweep {
+  0% {
+    left: -70%;
+  }
+
+  35%,
+  100% {
+    left: 140%;
+  }
+}
+
+.online-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.live-dot-pulse {
+  width: 8px;
+  height: 8px;
+  background: var(--jade-core);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--jade-core);
+  animation: pulseDot 1.4s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
+}
+
+/* ===================================================================
+   IN-GAME HUD (Top Floating Pods)
+   =================================================================== */
+#hud-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* ===================================================================
+   IN-GAME HUD TOP STATUS RIBBON (Authentic AAA Video Game HUD)
+   =================================================================== */
+.hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  gap: 16px;
+  width: 100%;
+  pointer-events: none;
+}
+
+/* Integrated Gaming Resource Gauge (Luminous Frosted Crystal Aero Ribbon) */
+.hud-stats-ribbon {
+  display: flex;
+  align-items: center;
+  background: rgba(10, 18, 32, 0.72);
+  border: none;
+  border-radius: 999px;
+  padding: 4px 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  pointer-events: auto;
+  gap: 6px;
+}
+
+.hud-stat-cell {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 13px 5px 11px;
+  border-radius: 999px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
+}
+
+.hud-stat-cell:hover {
+  transform: translateY(-1px);
+}
+
+.hud-stat-icon {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.hud-stat-num {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.hud-stat-num b {
+  font-weight: 900;
+}
+
+.money-cell {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.20) 0%, rgba(217, 119, 6, 0.10) 100%);
+  box-shadow: inset 0 0 12px rgba(255, 193, 7, 0.15), 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.money-cell .hud-stat-icon {
+  color: #ffc107;
+  filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.65));
+}
+
+.money-cell .hud-stat-num b {
+  color: #ffd54f;
+  text-shadow: 0 0 12px rgba(255, 213, 79, 0.55);
+}
+
+.fruit-cell {
+  background: linear-gradient(135deg, rgba(255, 19, 97, 0.20) 0%, rgba(225, 29, 72, 0.10) 100%);
+  box-shadow: inset 0 0 12px rgba(255, 19, 97, 0.15), 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.fruit-cell .hud-stat-icon {
+  color: #ff3378;
+  filter: drop-shadow(0 0 8px rgba(255, 19, 97, 0.65));
+}
+
+.fruit-cell .hud-stat-num b {
+  color: #ff5c93;
+  text-shadow: 0 0 12px rgba(255, 92, 147, 0.55);
+}
+
+.fruit-cell .hud-stat-num small {
+  font-size: 10px;
+  font-weight: 800;
+  color: #fecdd3;
+  letter-spacing: 0.04em;
+}
+
+.online-cell {
+  background: linear-gradient(135deg, rgba(0, 242, 152, 0.20) 0%, rgba(5, 150, 105, 0.10) 100%);
+  box-shadow: inset 0 0 12px rgba(0, 242, 152, 0.15), 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.online-cell .hud-stat-num b {
+  color: #00f298;
+  text-shadow: 0 0 12px rgba(0, 242, 152, 0.55);
+}
+
+.online-cell .hud-stat-num small {
+  font-size: 10px;
+  font-weight: 800;
+  color: #a7f3d0;
+  letter-spacing: 0.04em;
+}
+
+.hud-stat-sep {
+  display: none !important; /* Bỏ gạch dọc theo yêu cầu */
+}
+
+.hud-online-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--jade-core);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--jade-core);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+/* Quick Tool Action Buttons (Crystal Aero Pills) */
+.hud-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.hud-extra-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-more-toggle {
+  display: none;
+}
+
+.hud-tool-btn {
+  background: rgba(14, 24, 40, 0.58);
+  border: none;
+  color: #f1f5f9;
+  padding: 7px 15px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hud-tool-btn:hover {
+  background: rgba(26, 42, 68, 0.75);
+  border: none;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.38), 0 0 16px rgba(0, 242, 152, 0.2);
+}
+
+.hud-tool-btn:active {
+  transform: scale(0.95);
+  background: rgba(10, 18, 32, 0.85);
+}
+
+.hud-tool-btn.active {
+  background: rgba(0, 242, 152, 0.22);
+  border: none;
+  color: #00f298;
+  box-shadow: 0 8px 24px rgba(0, 242, 152, 0.28);
+}
+
+.hud-sound-btn {
+  padding: 8px 12px;
+}
+
+/* ===================================================================
+   CIRCULAR TACTICAL RADAR (Holographic Crystal Disc)
+   =================================================================== */
+.game-radar-wrap {
+  position: absolute;
+  top: 74px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  pointer-events: auto;
+  z-index: 30;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.radar-disc {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle, rgba(12, 36, 28, 0.55) 0%, rgba(4, 18, 16, 0.82) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 242, 152, 0.4);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 242, 152, 0.22);
+}
+
+#minimap-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.radar-sweep-beam {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 0deg, rgba(0, 242, 152, 0.25) 0deg, transparent 65deg, transparent 360deg);
+  border-radius: 50%;
+  animation: radarSweep 4s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes radarSweep {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.compass-marker {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--gold-light);
+  text-shadow: 0 0 6px var(--gold-glow), 1px 1px 2px #000;
+  pointer-events: none;
+}
+
+.comp-n {
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.comp-s {
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.comp-e {
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.comp-w {
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.radar-tag {
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #e2e8f0;
+  text-transform: uppercase;
+  background: rgba(12, 22, 40, 0.65);
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: none;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+#minimap-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.radar-sweep-beam {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 0deg, rgba(0, 242, 152, 0.22) 0deg, transparent 65deg, transparent 360deg);
+  border-radius: 50%;
+  animation: radarSweep 4s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes radarSweep {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.compass-marker {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--gold-light);
+  text-shadow: 0 0 6px var(--gold-glow);
+  pointer-events: none;
+}
+
+.comp-n {
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.comp-s {
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.comp-e {
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.comp-w {
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.minimap-caption {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-dot.red {
+  background: #ff1361;
+  box-shadow: 0 0 6px #ff1361;
+}
+
+.legend-dot.green {
+  background: #00f298;
+  box-shadow: 0 0 6px #00f298;
+}
+
+/* ===================================================================
+   PROXIMITY ACTION PROMPT [E] (Luminous Frosted Crystal Aero Beacon)
+   =================================================================== */
+.interact-prompt {
+  position: absolute;
+  bottom: 180px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  background: rgba(8, 28, 22, 0.68);
+  border: none;
+  padding: 8px 18px 8px 12px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  pointer-events: auto;
+  cursor: pointer;
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  box-shadow: 0 16px 42px -4px rgba(0, 0, 0, 0.45), 0 0 28px rgba(0, 242, 152, 0.35);
+  animation: promptPulse 2s infinite ease-in-out alternate;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
+}
+
+.interact-prompt:hover {
+  transform: translateX(-50%) translateY(-2px) scale(1.04);
+  box-shadow: 0 20px 50px -4px rgba(0, 0, 0, 0.55), 0 0 36px rgba(0, 242, 152, 0.55);
+}
+
+@keyframes promptPulse {
+  0% {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 20px var(--jade-glow);
+  }
+
+  100% {
+    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.5), 0 0 36px rgba(0, 242, 152, 0.55);
+  }
+}
+
+.prompt-key-badge {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(145deg, #ffffff, #d1fae5);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 16px var(--jade-glow), 0 3px 0 #059669, 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.key-letter {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 900;
+  color: #064e3b;
+}
+
+.prompt-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.prompt-headline {
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.prompt-subtext {
+  font-size: 12px;
+  color: #a7f3d0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.prompt-action-pill {
+  background: linear-gradient(135deg, #00f298 0%, #10b981 100%);
+  color: #042617;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  box-shadow: 0 3px 12px var(--jade-glow), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  transition: transform 0.15s;
+}
+
+/* ===================================================================
+   CLOSE-UP 3D STYLING ATELIER (Pure In-Game Diegetic HUD - NO Card!)
+   =================================================================== */
+body.in-closeup-mode .hud-top,
+body.in-closeup-mode .game-radar-wrap,
+body.in-closeup-mode .minimap-box,
+body.in-closeup-mode .game-chat-hud,
+body.in-closeup-mode .chat-panel,
+body.in-closeup-mode .dpad-container,
+body.in-closeup-mode .controls-hud,
+body.in-closeup-mode #controls-hud,
+body.in-closeup-mode .controls-hint,
+body.in-closeup-mode .hud-help-card,
+body.in-closeup-mode .joystick-zone,
+body.in-closeup-mode #labels-container,
+body.in-closeup-mode .interact-prompt,
+body.in-closeup-mode .guide-reopen-pill,
+body.in-closeup-mode #reopen-guide-btn {
+  display: none !important;
+}
+
+body.in-closeup-mode .closeup-overlay {
+  background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.05) 0%, rgba(6, 12, 24, 0.78) 100%);
+  pointer-events: none;
+}
+
+.closeup-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 20px 28px;
+  z-index: 25;
+  transition: opacity 0.22s ease;
+}
+
+.closeup-overlay.leaving {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Floating Game Objective Banner (No Card Box!) */
+.closeup-game-objective {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  pointer-events: auto;
+  animation: objectiveFade 0.3s ease-out;
+}
+
+@keyframes objectiveFade {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.objective-badge {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: var(--gold-core);
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 190, 11, 0.5), 1px 1px 2px #000;
+}
+
+.objective-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, #ffffff 40%, var(--gold-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
+}
+
+.objective-meter-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.objective-track {
+  position: relative;
+  width: 320px;
+  max-width: calc(100vw - 80px);
+  height: 10px;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.objective-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #00f298, #6ee7b7);
+  box-shadow: 0 0 16px var(--jade-glow);
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 999px;
+}
+
+.closeup-segments-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.ear-segment {
+  flex: 1;
+  height: 10px;
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
+  background: transparent;
+  transition: all 0.3s;
+}
+
+.ear-segment.active {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.objective-score {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 1px 1px 3px #000, 0 0 8px rgba(0, 242, 152, 0.4);
+}
+
+.objective-score b {
+  color: var(--jade-core);
+  font-size: 18px;
+}
+
+.objective-hint {
+  font-size: 12px;
+  font-weight: 700;
+  color: #cbd5e1;
+  text-shadow: 1px 1px 2px #000, -1px -1px 2px #000, 0 2px 4px rgba(0, 0, 0, 0.9);
+  margin-top: 2px;
+}
+
+/* VietGAP Wax Seal / Export Quality Stamp (Floating Above Dock - Never Obscures Fruit) */
+.closeup-stamp {
+  position: absolute;
+  bottom: calc(max(22px, env(safe-area-inset-bottom, 22px)) + 66px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 35;
+  pointer-events: none;
+  animation: stampPopUp 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+@keyframes stampPopUp {
+  0% {
+    transform: translate(-50%, 18px) scale(0.92);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+.stamp-inner-seal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: radial-gradient(circle at 35% 35%, #e11d48, #9f1239);
+  border: 2px solid var(--gold-core);
+  border-radius: 999px;
+  padding: 8px 20px 8px 16px;
+  box-shadow: 0 10px 30px rgba(159, 18, 57, 0.6), 0 0 20px var(--gold-glow);
+}
+
+.stamp-stars {
+  font-size: 13px;
+  color: var(--gold-core);
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px var(--gold-glow);
+}
+
+.stamp-text-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.stamp-grade-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  line-height: 1.15;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.stamp-sub {
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+.stamp-reward {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-left: 4px;
+}
+
+/* Floating In-Game Hotkey Action Dock (Diegetic Obsidian Aero Dock) */
+.closeup-top-back-btn {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top, 16px));
+  left: max(16px, env(safe-area-inset-left, 16px));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(14, 22, 38, 0.75);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 8px 16px 8px 12px;
+  color: #e2e8f0;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  z-index: 50;
+  pointer-events: auto;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.closeup-top-back-btn:hover {
+  background: rgba(239, 68, 68, 0.35);
+  border-color: rgba(239, 68, 68, 0.65);
+  color: #ffffff;
+  transform: translateX(-3px);
+  box-shadow: 0 10px 28px rgba(239, 68, 68, 0.35);
+}
+
+.closeup-top-back-btn:active {
+  transform: scale(0.94);
+}
+
+.closeup-hotkey-dock {
+  display: flex;
+  gap: 14px;
+  pointer-events: auto;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: max(22px, env(safe-area-inset-bottom, 22px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+}
+
+.hotkey-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 22, 38, 0.72);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: #f1f5f9;
+  cursor: pointer;
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+/* Icon-Only Styling for Dock Buttons */
+.hotkey-action-btn.hotkey-icon-only {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  max-width: 52px;
+  border-radius: 50%;
+  padding: 0;
+}
+
+.hotkey-action-btn.hotkey-icon-only i,
+.hotkey-action-btn.hotkey-icon-only svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.2;
+  color: #e2e8f0;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.hotkey-action-btn:hover {
+  background: rgba(26, 38, 62, 0.90);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-3px) scale(1.06);
+  color: #ffffff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.52), 0 0 16px rgba(0, 242, 152, 0.25);
+}
+
+.hotkey-action-btn:active {
+  transform: scale(0.92);
+}
+
+.hotkey-action-btn.hotkey-icon-only .hk-key {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 16, 28, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+  padding: 1px 6px;
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 900;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+/* Nút Kích Bung Ngoe - Nổi bật như kỹ năng chính (Ultimate) */
+.hotkey-action-btn.hotkey-spray.hotkey-icon-only {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  max-width: 60px;
+  background: linear-gradient(135deg, rgba(0, 242, 152, 0.32) 0%, rgba(16, 185, 129, 0.45) 100%);
+  border: 2px solid rgba(0, 242, 152, 0.85);
+  box-shadow: 0 8px 28px rgba(0, 242, 152, 0.45), inset 0 0 16px rgba(0, 242, 152, 0.3);
+}
+
+.hotkey-action-btn.hotkey-spray.hotkey-icon-only i,
+.hotkey-action-btn.hotkey-spray.hotkey-icon-only svg {
+  width: 26px;
+  height: 26px;
+  color: #00f298;
+  filter: drop-shadow(0 0 8px rgba(0, 242, 152, 0.75));
+}
+
+.hotkey-action-btn.hotkey-spray.hotkey-icon-only:hover {
+  background: linear-gradient(135deg, rgba(0, 242, 152, 0.48) 0%, rgba(16, 185, 129, 0.65) 100%);
+  box-shadow: 0 12px 36px rgba(0, 242, 152, 0.65), inset 0 0 20px rgba(0, 242, 152, 0.4);
+  transform: translateY(-3px) scale(1.10);
+}
+
+/* Nút Rời Vườn (Ruby Exit) */
+.hotkey-action-btn.hotkey-exit.hotkey-icon-only {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(185, 28, 28, 0.40) 100%);
+  border: 1.5px solid rgba(248, 113, 113, 0.72);
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.35), inset 0 0 12px rgba(239, 68, 68, 0.22);
+}
+
+.hotkey-action-btn.hotkey-exit.hotkey-icon-only i,
+.hotkey-action-btn.hotkey-exit.hotkey-icon-only svg {
+  color: #fca5a5;
+  filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.6));
+}
+
+.hotkey-action-btn.hotkey-exit.hotkey-icon-only:hover {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.45) 0%, rgba(185, 28, 28, 0.65) 100%);
+  border-color: #ef4444;
+  box-shadow: 0 12px 32px rgba(239, 68, 68, 0.6);
+  transform: translateY(-3px) scale(1.08);
+}
+
+/* Hiệu ứng rời vườn (Cinematic Garden Exit FX - Siêu mượt 60FPS không giật lag) */
+.garden-transition-fx {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 68;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 242, 152, 0.08) 0%, rgba(6, 12, 24, 0.5) 100%);
+}
+
+.garden-transition-fx.active {
+  animation: exitGardenFlash 0.32s ease-out forwards;
+}
+
+@keyframes exitGardenFlash {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.dock-btn:active {
+  transform: scale(0.96);
+}
+
+.dock-icon {
+  font-size: 16px;
+}
+
+.dock-btn kbd {
+  background: rgba(255, 255, 255, 0.16);
+  border: none;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 900;
+  color: #fff;
+  margin-left: 4px;
+}
+
+.dock-btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--glass-border);
+  color: #f1f5f9;
+}
+
+.dock-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: var(--glass-border-bright);
+  color: #fff;
+}
+
+.dock-btn-primary {
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+}
+
+.dock-btn-primary:hover {
+  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.6);
+}
+
+.badge-pill {
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 9.5px;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-left: 4px;
+}
+
+.dock-btn-danger {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+}
+
+.dock-btn-danger:hover {
+  background: rgba(239, 68, 68, 0.25);
+  color: #fff;
+}
+
+/* ===================================================================
+   IN-GAME TRANSPARENT CHAT HUD (Authentic Video Game Chat Stream - NO Card!)
+   =================================================================== */
+/* Floating Mobile Chat Trigger (Hidden on Desktop) */
+.mobile-chat-pill {
+  display: none;
+}
+.mobile-chat-bubble {
+  display: none;
+}
+.chat-mobile-header {
+  display: none;
+}
+
+.game-chat-hud {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  width: 420px;
+  max-width: calc(100vw - 48px);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 52;
+}
+
+.chat-messages {
+  height: 120px;
+  overflow-y: auto;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, transparent 0%, rgba(5, 10, 20, 0.45) 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
+  transition: background 0.2s;
+}
+
+.chat-messages:hover {
+  background: rgba(5, 10, 20, 0.7);
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.chat-line {
+  line-height: 1.35;
+  word-break: break-word;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.chat-line b {
+  color: #fbbf24;
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+  margin-right: 4px;
+}
+
+.chat-line.system-msg {
+  color: #6ee7b7;
+  font-style: italic;
+  font-size: 12px;
+}
+
+/* Low-profile in-game chat bar (Frosted Crystal Glass) */
+.chat-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(12, 20, 36, 0.60);
+  border: none;
+  border-radius: 999px;
+  padding: 4px 6px 4px 14px;
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+  pointer-events: auto;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.chat-input-bar:focus-within {
+  background: rgba(16, 28, 48, 0.78);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 20px var(--jade-glow);
+}
+
+#chat-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 4px 0;
+}
+
+#chat-input::placeholder {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.quick-emotes-strip {
+  display: flex;
+  gap: 3px;
+}
+
+.quick-chat-chip {
+  background: rgba(255, 255, 255, 0.10);
+  border: none;
+  color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  padding: 0;
+}
+
+.quick-chat-chip:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.15);
+}
+
+#chat-send-btn {
+  background: linear-gradient(135deg, #00f298, #059669);
+  color: #042617;
+  border: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px var(--jade-glow);
+  transition: transform 0.15s;
+  padding: 0;
+}
+
+#chat-send-btn:hover {
+  transform: scale(1.1);
+}
+
+#chat-send-btn:active {
+  transform: scale(0.9);
+}
+
+/* ===================================================================
+   MINIMALIST FLOATING KEYBIND ACTION BAR (Centered Bottom - Frosted Aero Glass)
+   =================================================================== */
+.controls-hud {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(14, 22, 38, 0.62);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px);
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px 6px 18px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+  z-index: 45;
+  pointer-events: auto;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.controls-hud.hidden-guide {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(24px);
+}
+
+.guide-close-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #94a3b8;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  padding: 0;
+  margin-left: 2px;
+}
+
+.guide-close-btn:hover {
+  background: rgba(255, 19, 97, 0.6);
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.guide-reopen-pill {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(18, 22, 36, 0.65);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px);
+  border: none;
+  border-radius: 999px;
+  padding: 7px 18px;
+  color: #f1f5f9;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  z-index: 45;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.guide-reopen-pill:hover {
+  background: rgba(30, 38, 58, 0.85);
+  border: none;
+  color: #ffffff;
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 242, 152, 0.2);
+}
+
+.guide-reopen-pill.hidden {
+  display: none !important;
+}
+
+.hud-pill-key {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hud-pill-sep {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.k-badge {
+  background: rgba(255, 255, 255, 0.16);
+  border: none;
+  border-radius: 6px;
+  padding: 2px 7px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 900;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.k-badge.primary-key {
+  background: rgba(0, 242, 152, 0.28);
+  border: none;
+  color: #a7f3d0;
+  box-shadow: 0 0 10px rgba(0, 242, 152, 0.35);
+}
+
+.k-icon {
+  font-size: 12px;
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+}
+
+.k-lbl {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #cbd5e1;
+}
+
+/* ===================================================================
+   RESPONSIVE ON-SCREEN CYBER-DISC CONTROLLER (Bottom Left)
+   Sleek Ergonomic Tactile Gamepad D-Pad (Chuẩn Console / Mobile AAA)
+   Luôn nằm bên TRÁI để ngón tay cái trái di chuyển, KHÔNG đè lên nút thao tác bên PHẢI!
+   =================================================================== */
+.dpad-container {
+  position: absolute;
+  bottom: 22px;
+  left: 22px;
+  right: auto;
+  z-index: 45;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  pointer-events: none; /* Khung bao không chặn click chuột vào các phần tử khác */
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dpad-container.hidden-on-desktop {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9);
+}
+
+.dpad-disc-circle {
+  position: relative;
+  width: 156px;
+  height: 156px;
+  border-radius: 50%;
+  pointer-events: auto; /* Chỉ phần đĩa tròn và các nút phím mới bắt sự kiện */
+  background: radial-gradient(circle at 50% 50%, rgba(20, 32, 54, 0.72) 0%, rgba(10, 18, 32, 0.90) 75%, rgba(5, 10, 20, 0.96) 100%);
+  border: none;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px);
+}
+
+/* Molded Ergonomic D-Pad Wings */
+.dpad-dir {
+  position: absolute;
+  background: rgba(22, 34, 56, 0.75);
+  border: none;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  outline: none;
+  padding: 0;
+}
+
+.dpad-dir .lucide {
+  width: 24px;
+  height: 24px;
+  stroke-width: 3.2px;
+  stroke: currentColor;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.7));
+  transition: transform 0.12s, stroke 0.12s, filter 0.12s;
+}
+
+.dpad-dir:hover {
+  background: linear-gradient(145deg, rgba(0, 242, 152, 0.22) 0%, rgba(12, 32, 28, 0.9) 100%);
+  border-color: #00f298;
+  color: #00f298;
+  box-shadow: 0 0 20px rgba(0, 242, 152, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  transform: scale(1.04);
+}
+
+.dpad-dir:hover .lucide {
+  filter: drop-shadow(0 0 8px #00f298);
+}
+
+.dpad-dir:active,
+.dpad-dir.active {
+  background: linear-gradient(135deg, #00f298 0%, #059669 100%);
+  color: #022c22;
+  border-color: #a7f3d0;
+  box-shadow: 0 0 28px #00f298, inset 0 2px 4px rgba(0, 0, 0, 0.35);
+  transform: scale(0.92);
+}
+
+.dpad-dir:active .lucide,
+.dpad-dir.active .lucide {
+  stroke: #022c22;
+  filter: none;
+}
+
+/* Precision Positions & Ergonomic Rounded Geometries */
+.dpad-up {
+  top: 7px;
+  left: 54px;
+  width: 48px;
+  height: 46px;
+  border-radius: 16px 16px 8px 8px;
+}
+.dpad-down {
+  bottom: 7px;
+  left: 54px;
+  width: 48px;
+  height: 46px;
+  border-radius: 8px 8px 16px 16px;
+}
+.dpad-left {
+  left: 7px;
+  top: 54px;
+  width: 46px;
+  height: 48px;
+  border-radius: 16px 8px 8px 16px;
+}
+.dpad-right {
+  right: 7px;
+  top: 54px;
+  width: 46px;
+  height: 48px;
+  border-radius: 8px 16px 16px 8px;
+}
+
+/* Center Turbo Sprint Core Button (⚡ CHẠY) */
+.dpad-down {
+  bottom: 7px;
+  left: 52px;
+}
+
+.dpad-left {
+  left: 7px;
+  top: 52px;
+}
+
+.dpad-right {
+  right: 7px;
+  top: 52px;
+}
+
+.dpad-center-btn {
+  position: absolute;
+  top: 52px;
+  left: 52px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(255, 19, 97, 0.55) 0%, rgba(180, 10, 60, 0.8) 55%, rgba(40, 10, 24, 0.95) 100%);
+  border: 2px solid rgba(255, 19, 97, 0.65);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 19, 97, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.55);
+  transition: all 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  padding: 0;
+}
+
+.dpad-center-btn:hover {
+  background: radial-gradient(circle at 40% 35%, rgba(255, 19, 97, 0.75) 0%, rgba(220, 20, 75, 0.9) 60%, rgba(60, 12, 32, 1) 100%);
+  border-color: #ff3378;
+  box-shadow: 0 0 26px rgba(255, 19, 97, 0.7);
+  transform: scale(1.06);
+}
+
+.dpad-center-btn:active,
+.dpad-center-btn.active {
+  background: linear-gradient(135deg, #ff1361 0%, #ffbe0b 100%);
+  border-color: #ffe28a;
+  color: #ffffff;
+  box-shadow: 0 0 32px #ff1361, inset 0 2px 5px rgba(0, 0, 0, 0.3);
+  transform: scale(0.92);
+}
+
+.sprint-icon {
+  width: 17px;
+  height: 17px;
+  color: #ffe28a;
+  filter: drop-shadow(0 0 6px #ffbe0b);
+}
+
+.sprint-sub {
+  font-family: var(--font-display);
+  font-size: 8.5px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin-top: 1px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+/* ===================================================================
+   LIÊN QUÂN STYLE DYNAMIC FLOATING JOYSTICK (Mobile Touch)
+   Chạm vuốt để di chuyển, nhấc tay tự động ẩn hoàn toàn
+   z-index: 10 để NẰM DƯỚI toàn bộ nút bấm & HUD giao diện (z-index 45-80),
+   tuyệt đối không bao giờ đè lên nút hay cản trở bấm nút!
+   =================================================================== */
+.joystick-zone {
+  position: fixed;
+  top: 54px;
+  left: 0;
+  width: 48vw;
+  height: calc(100vh - 54px);
+  z-index: 10;
+  touch-action: none;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  display: none; /* Mặc định ẩn trên Desktop (dùng chuột/bàn phím), chỉ hiện trên Mobile */
+}
+
+@media (max-width: 860px) {
+  .joystick-zone {
+    display: block;
+  }
+  .camera-touch-zone {
+    display: block;
+  }
+}
+
+body.force-show-dpad .joystick-zone,
+body.disable-touch-controls .joystick-zone {
+  display: none !important;
+}
+
+/* Virtual Camera Touch Zone for Mobile (Nửa phải màn hình - Vuốt ngón cái phải xoay camera 360 độ toàn cảnh) */
+.camera-touch-zone {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 52vw;
+  height: 100vh;
+  z-index: 10;
+  touch-action: none;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  display: none;
+}
+
+body.in-closeup-mode .camera-touch-zone {
+  display: none !important;
+}
+
+.joystick-base {
+  position: fixed;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.72);
+  opacity: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 242, 152, 0.12) 0%, rgba(15, 23, 42, 0.72) 55%, rgba(6, 12, 24, 0.90) 100%);
+  border: 2px solid rgba(0, 242, 152, 0.55);
+  box-shadow: 0 0 28px rgba(0, 242, 152, 0.35), inset 0 0 16px rgba(0, 242, 152, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, left, top;
+}
+
+.joystick-base.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.joystick-base::before {
+  content: '';
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(0, 242, 152, 0.4);
+  pointer-events: none;
+}
+
+.joystick-stick {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #00f298 42%, #059669 80%, #022c22 100%);
+  border: 2.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6), 0 0 22px rgba(0, 242, 152, 0.75), inset 0 2px 2px rgba(255, 255, 255, 0.6);
+  will-change: transform;
+}
+
+.joystick-stick::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 0 8px #ffffff;
+}
+
+/* ===================================================================
+   MODALS (Leaderboard Hall of Fame)
+   =================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 10, 22, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 60;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-box {
+  background: rgba(14, 24, 42, 0.88);
+  border: none;
+  border-radius: 28px;
+  width: 100%;
+  max-width: 520px;
+  padding: 30px;
+  color: #fff;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6), 0 0 35px var(--gold-glow);
+  backdrop-filter: blur(36px) saturate(190%);
+  -webkit-backdrop-filter: blur(36px);
+  animation: cardFadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.modal-title-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-trophy-icon {
+  font-size: 32px;
+}
+
+.modal-head h2 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--gold-core);
+  line-height: 1.2;
+}
+
+.modal-sub {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 3px;
+}
+
+.close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: rotate(90deg);
+}
+
+.leaderboard-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.leaderboard-rows::-webkit-scrollbar {
+  width: 4px;
+}
+
+.leaderboard-rows::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.lb-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 13.5px;
+  font-weight: 800;
+  transition: transform 0.15s;
+}
+
+.lb-row:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.lb-row.is-me {
+  border-color: var(--gold-core);
+  background: linear-gradient(135deg, rgba(255, 190, 11, 0.15), rgba(255, 19, 97, 0.15));
+  box-shadow: 0 0 20px var(--gold-glow);
+}
+
+/* ===================================================================
+   TOAST NOTIFICATION (Floating Dynamic Island)
+   =================================================================== */
+.toast-box {
+  position: fixed;
+  top: max(72px, env(safe-area-inset-top, 72px));
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  padding: 9px 20px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  z-index: 80;
+  pointer-events: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  animation: toastDrop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes toastDrop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ===================================================================
+   RESPONSIVE LAYOUT (Mobile / Tablet Optimization)
+   Engineered for Ultra-Smooth One-Hand & Dual-Thumb Gaming
+   =================================================================== */
+@media (max-width: 860px) {
+  /* 1. Top In-Game HUD Bar (Sắp xếp lại ngăn nắp, không tràn viền) */
+  .hud-top {
+    padding: max(8px, env(safe-area-inset-top, 8px)) 10px 4px;
+    gap: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hud-stats-ribbon {
+    padding: 3px 4px;
+    gap: 4px;
+    flex-shrink: 0;
+    border-radius: 999px;
+  }
+
+  .hud-stat-cell {
+    padding: 3px 8px;
+    gap: 4px;
+  }
+
+  .hud-stats-ribbon small {
+    display: none !important; /* Ẩn chữ TRÁI, ONLINE trên mobile để tiết kiệm chiều ngang */
+  }
+
+  .hud-stat-icon {
+    font-size: 12px;
+  }
+
+  .hud-stat-num {
+    font-size: 11px;
+    font-weight: 900;
+  }
+
+  .hud-quick-actions {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  .hud-tool-btn {
+    width: 33px;
+    height: 33px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 10px;
+    position: relative;
+  }
+
+  .hud-tool-btn .btn-label {
+    display: none !important;
+  }
+
+  .hud-tool-btn .btn-icon .lucide {
+    width: 16px;
+    height: 16px;
+  }
+
+  .nav-chat-btn .chat-unread-dot {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff1361;
+    box-shadow: 0 0 8px #ff1361;
+  }
+
+  /* Nút Menu Cài Đặt Thêm (⚙️) */
+  .hud-more-toggle {
+    display: flex !important;
+  }
+
+  /* Dropdown ngăn nắp chứa các nút phụ: Phím Ảo, GPU, Camera */
+  .hud-extra-tools {
+    display: none !important;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: rgba(12, 20, 36, 0.85);
+    border: none;
+    border-radius: 18px;
+    padding: 10px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 242, 152, 0.15);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    flex-direction: column;
+    gap: 8px;
+    min-width: 170px;
+    z-index: 60;
+  }
+
+  .hud-extra-tools.open {
+    display: flex !important;
+    animation: extraToolsDrop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hud-extra-tools .hud-tool-btn {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    padding: 8px 12px !important;
+    gap: 10px !important;
+    border-radius: 12px !important;
+  }
+
+  .hud-extra-tools .btn-label {
+    display: inline-block !important;
+    font-size: 12px !important;
+    color: #f1f5f9;
+  }
+
+  @keyframes extraToolsDrop {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Hide Desktop-Only Keyboard Hints */
+  .controls-hud,
+  #controls-hud,
+  .controls-hint,
+  .guide-reopen-pill,
+  #reopen-guide-btn {
+    display: none !important;
+  }
+
+  /* 2. On Mobile: Dynamic Liên Quân Joystick is Active (Chạm vuốt tự hiện, nhấc tay tự ẩn) */
+  .dpad-container {
+    display: none !important;
+    left: 12px;
+    right: auto;
+    bottom: max(16px, env(safe-area-inset-bottom, 16px));
+    transform: scale(0.85);
+    transform-origin: bottom left;
+    z-index: 45;
+    pointer-events: none;
+  }
+
+  .dpad-container .dpad-disc-circle {
+    pointer-events: auto;
+  }
+
+  body.force-show-dpad .dpad-container {
+    display: block !important;
+  }
+
+  /* 3. Top-Left Tactical Mini Radar (Gọn gàng dưới thanh thông số góc trái, tuyệt đối không đè nút!) */
+  .game-radar-wrap {
+    top: max(48px, calc(env(safe-area-inset-top, 0px) + 44px));
+    left: 10px;
+    right: auto;
+    bottom: auto;
+    transform: scale(0.58);
+    transform-origin: top left;
+  }
+
+  .game-radar-wrap .radar-tag,
+  .game-radar-wrap .radar-region-badge {
+    display: none !important;
+  }
+
+  /* 4. Right-Thumb Proximity Action Floating Beacon (FAB) */
+  .interact-prompt {
+    left: auto !important;
+    right: 16px !important;
+    bottom: max(24px, env(safe-area-inset-bottom, 24px)) !important;
+    transform: none !important;
+    z-index: 50 !important;
+    pointer-events: auto !important;
+    padding: 10px 18px 10px 14px !important;
+    gap: 10px !important;
+    border-radius: 999px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 28px rgba(0, 242, 152, 0.55) !important;
+  }
+
+  .interact-prompt:active {
+    transform: scale(0.95) !important;
+  }
+
+  .prompt-headline {
+    font-size: 13px !important;
+  }
+
+  .prompt-subtext {
+    display: none !important; /* Rút gọn thông tin để không che màn hình điện thoại */
+  }
+
+  .prompt-key-badge {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 13px !important;
+  }
+
+  .prompt-action-pill {
+    padding: 6px 12px !important;
+    font-size: 11px !important;
+  }
+
+  /* 5. Mobile Toast Message Bubble (Nằm cạnh Mini Radar phía góc trái trên) */
+  .mobile-chat-bubble {
+    display: block;
+    position: fixed;
+    top: max(48px, calc(env(safe-area-inset-top, 0px) + 44px));
+    left: 92px;
+    max-width: min(250px, calc(100vw - 110px));
+    background: rgba(10, 18, 34, 0.90);
+    border: none;
+    border-radius: 14px;
+    padding: 7px 12px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(16px);
+    pointer-events: none;
+    z-index: 49;
+    animation: chatBubblePop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes chatBubblePop {
+    from { opacity: 0; transform: translateY(-6px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Khung Chat Mobile (Chỉ hiện khi bấm vào nút Chat!) */
+  .game-chat-hud {
+    position: fixed !important;
+    left: 10px !important;
+    right: 10px !important;
+    bottom: max(12px, env(safe-area-inset-bottom, 12px)) !important;
+    width: auto !important;
+    max-width: 480px !important;
+    margin: 0 auto !important;
+    background: rgba(12, 20, 36, 0.88) !important;
+    border: none !important;
+    border-radius: 20px !important;
+    padding: 12px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(255, 19, 97, 0.25) !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+    z-index: 55 !important;
+    display: none !important; /* Ẩn hoàn toàn cho đến khi bấm nút Chat! */
+    flex-direction: column !important;
+    gap: 8px !important;
+    pointer-events: auto !important;
+  }
+
+  .game-chat-hud.mobile-open {
+    display: flex !important;
+    animation: chatDrawerSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  @keyframes chatDrawerSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .chat-mobile-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .chat-mobile-title {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--rose-bright);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .chat-mobile-close {
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chat-messages {
+    height: 130px !important;
+    max-height: 150px !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  .chat-input-bar {
+    width: 100% !important;
+  }
+
+  .chat-input-bar input {
+    font-size: 14px !important;
+    height: 42px !important;
+  }
+
+  /* 6. Close-Up Vuốt Ngoe Mode on Mobile */
+  .closeup-overlay {
+    padding: max(14px, env(safe-area-inset-top, 14px)) 10px max(18px, env(safe-area-inset-bottom, 18px));
+  }
+
+  .objective-panel {
+    top: max(12px, env(safe-area-inset-top, 12px));
+    padding: 8px 16px;
+  }
+
+  .objective-title {
+    font-size: 16px;
+  }
+
+  .objective-track {
+    width: 190px;
+  }
+
+  .closeup-hotkey-dock {
+    position: absolute;
+    bottom: max(18px, env(safe-area-inset-bottom, 18px));
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 12px;
+    width: auto;
+    padding: 0;
+    justify-content: center;
+    z-index: 40;
+  }
+
+  .closeup-stamp {
+    bottom: calc(max(18px, env(safe-area-inset-bottom, 18px)) + 58px);
+  }
+
+  .hotkey-action-btn.hotkey-icon-only {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    max-width: 50px;
+    border-radius: 50%;
+    padding: 0;
+    flex: 0 0 auto;
+  }
+
+  .hotkey-action-btn.hotkey-spray.hotkey-icon-only {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    max-width: 58px;
+  }
+
+  .closeup-top-back-btn span {
+    display: none;
+  }
+
+  .closeup-top-back-btn {
+    padding: 10px;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+  }
+
+  .hk-key {
+    display: none !important; /* Ẩn ký tự phím bàn phím [A], [Space], [D] trên màn hình cảm ứng */
+  }
+
+  /* 7. Welcome Screen Mobile Adaptation */
+  .overlay-screen {
+    padding: max(16px, env(safe-area-inset-top, 16px)) 12px max(20px, env(safe-area-inset-bottom, 20px));
+    align-items: center;
+  }
+
+  .login-card {
+    padding: 24px 18px;
+    border-radius: 24px;
+    max-width: 100%;
+  }
+
+  .login-logo-lockup h1 {
+    font-size: 21px;
+    letter-spacing: 0.02em;
+  }
+
+  .login-logo-lockup p {
+    font-size: 12px;
+  }
+
+  .welcome-df-svg {
+    width: 38px;
+    height: 38px;
+  }
+
+  .login-top-tag {
+    font-size: 10.5px;
+    padding: 4px 12px;
+    margin-bottom: 12px;
+  }
+
+  .login-feature-pills {
+    gap: 6px;
+    margin: 10px 0 14px;
+  }
+
+  .login-feature-pill {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  .color-picker-row {
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .color-swatch {
+    width: 36px;
+    height: 36px;
+  }
+
+  .hat-picker-row {
+    gap: 8px;
+  }
+
+  .hat-btn {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .primary-3d-btn {
+    padding: 14px 20px;
+    font-size: 14px;
+    border-radius: 16px;
+  }
+
+  /* 8. Modals Mobile Sizing */
+  .modal-overlay {
+    padding: max(16px, env(safe-area-inset-top, 16px)) 12px max(18px, env(safe-area-inset-bottom, 18px));
+  }
+
+  .modal-box {
+    padding: 22px 18px;
+    border-radius: 22px;
+    max-width: 95vw;
+    max-height: 88vh;
+  }
+
+  .modal-head h2 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 20px 14px;
+  }
+  .login-logo-lockup h1 {
+    font-size: 19px;
+  }
+  .dpad-container {
+    transform: scale(0.80);
+    left: 8px;
+    bottom: max(12px, env(safe-area-inset-bottom, 12px));
+  }
+  .hud-stats-ribbon {
+    padding: 4px 7px;
+    gap: 4px;
+  }
+  .hud-stat-num {
+    font-size: 10.5px;
+  }
+  .hud-tool-btn {
+    width: 31px;
+    height: 31px;
+  }
+  .hud-quick-actions {
+    gap: 4px;
+  }
+}

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#060c18">
+  <title>Vườn Thanh Long Lí An 3D - Đi Làm Vuốt Ngoe</title>
+  <!-- Instant Local Typography: Space Grotesk (Preloaded for 0ms Render, Zero Flash / Zero FOUT) -->
+  <link rel="preload" href="fonts/spacegrotesk-vietnamese.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/spacegrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/spacegrotesk-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <!-- Lucide Icons Engine (Local Standalone Engine) -->
+  <script src="lucide.js"></script>
+</head>
+<body>
+  <!-- 3D Viewport Container -->
+  <div id="world-container"></div>
+
+  <!-- 2D HTML Labels Container for 3D Players & Pillars (Names, Chat Bubbles, Markers) -->
+  <div id="labels-container"></div>
+
+  <!-- Join / Character Setup Screen (Cinematic AAA Game Splash) -->
+  <div id="login-screen" class="overlay-screen">
+    <!-- Atmospheric Dragon Fruit Orchard Ambient Orbs -->
+    <div class="ambient-orb orb-dragonfruit"></div>
+    <div class="ambient-orb orb-foliage"></div>
+    <div class="ambient-orb orb-lamp"></div>
+
+    <div class="login-card">
+      <!-- Live Server Header Ribbon -->
+      <div class="login-top-tag">
+        <span class="live-dot-pulse"></span>
+        <span class="server-title">Long An</span>
+        <span class="tag-divider">•</span>
+        <span class="online-pill"><b id="lobby-online-count">14</b> Online</span>
+      </div>
+
+      <!-- Brand Logo Lockup with Custom 3D Dragon Fruit Emblem -->
+      <div class="login-logo-lockup">
+        <div class="logo-icon-emblem">
+          <svg class="welcome-df-svg" viewBox="0 0 64 64" width="40" height="40" fill="none">
+            <defs>
+              <radialGradient id="dfSkinGrad" cx="35%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="#ff3377"/>
+                <stop offset="55%" stop-color="#e11d48"/>
+                <stop offset="85%" stop-color="#9f1239"/>
+                <stop offset="100%" stop-color="#4c0519"/>
+              </radialGradient>
+              <linearGradient id="dfBractGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#34d399"/>
+                <stop offset="60%" stop-color="#059669"/>
+                <stop offset="100%" stop-color="#facc15"/>
+              </linearGradient>
+              <filter id="dfGlowFilter" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#ff1361" flood-opacity="0.6"/>
+              </filter>
+            </defs>
+            <!-- Dragon Fruit Main Body -->
+            <path d="M32 5 C19 16 13 29 13 43 C13 53 21 59 32 59 C43 59 51 53 51 43 C51 29 45 16 32 5 Z" fill="url(#dfSkinGrad)" filter="url(#dfGlowFilter)"/>
+            <!-- Curving Dragon Bracts (Ngoe vuốt cong vút) -->
+            <path d="M32 4 C27 13 23 20 21 28 C26 23 30 21 34 21 C36 16 35 9 32 4 Z" fill="url(#dfBractGrad)"/>
+            <path d="M18 28 C11 32 9 40 13 46 C15 41 19 38 23 37 C21 34 19 31 18 28 Z" fill="url(#dfBractGrad)"/>
+            <path d="M46 28 C53 32 55 40 51 46 C49 41 45 38 41 37 C43 34 45 31 46 28 Z" fill="url(#dfBractGrad)"/>
+            <path d="M22 46 C17 51 21 57 26 58 C26 53 25 49 23 47 Z" fill="url(#dfBractGrad)"/>
+            <path d="M42 46 C47 51 43 57 38 58 C38 53 39 49 41 47 Z" fill="url(#dfBractGrad)"/>
+            <circle cx="32" cy="6" r="2" fill="#fef08a"/>
+          </svg>
+        </div>
+        <div class="logo-titles">
+          <h1>VƯỜN THANH LONG</h1>
+        </div>
+      </div>
+
+      <div class="login-form-body">
+        <div class="form-group">
+          <label><i data-lucide="user"></i> Tên của bạn</label>
+          <div class="name-input-wrapper">
+            <input type="text" id="player-name-input" placeholder="Nhập tên nhân vật..." maxlength="18" value="Thợ Vuốt Tập Sự">
+            <button type="button" id="random-name-btn" class="random-name-dice" title="Đổi tên ngẫu nhiên">
+              <i data-lucide="sparkles"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i data-lucide="shirt"></i> Màu áo</label>
+          <div class="color-picker-row" id="shirt-color-picker">
+            <button type="button" class="color-swatch active" data-color="#e84393" style="--swatch-color: #e84393;" title="Hồng"></button>
+            <button type="button" class="color-swatch" data-color="#0984e3" style="--swatch-color: #0984e3;" title="Xanh Biển"></button>
+            <button type="button" class="color-swatch" data-color="#00b894" style="--swatch-color: #00b894;" title="Xanh Lá"></button>
+            <button type="button" class="color-swatch" data-color="#fdcb6e" style="--swatch-color: #fdcb6e;" title="Vàng"></button>
+            <button type="button" class="color-swatch" data-color="#6c5ce7" style="--swatch-color: #6c5ce7;" title="Tím"></button>
+            <button type="button" class="color-swatch" data-color="#d63031" style="--swatch-color: #d63031;" title="Đỏ"></button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i data-lucide="crown"></i> Nón</label>
+          <div class="hat-picker-row" id="hat-type-picker">
+            <button type="button" class="hat-btn active" data-hat="nonla">
+              <span class="hat-name">Nón Lá</span>
+            </button>
+            <button type="button" class="hat-btn" data-hat="taibeo">
+              <span class="hat-name">Mũ Tai Bèo</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hidden hooks to maintain script compatibility without cluttering UI -->
+        <span id="login-costume-label" style="display:none"></span>
+        <span id="login-avatar-dot" style="display:none"></span>
+
+        <button id="enter-world-btn" class="primary-3d-btn enter-garden-btn">
+          <span>VÀO VƯỜN</span>
+          <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HUD Interface (In-Game Premium Cyber-Agri HUD) -->
+  <div id="hud-layer" class="hidden">
+    <!-- Game HUD Header Bar (True Gaming HUD Strip - Không Dùng Card!) -->
+    <div class="hud-top">
+      <div class="hud-stats-ribbon">
+        <div class="hud-stat-cell money-cell" title="Tiền công nhật">
+          <span class="hud-stat-icon"><i data-lucide="coins"></i></span>
+          <span class="hud-stat-num"><b id="hud-money">0K</b></span>
+        </div>
+        <div class="hud-stat-cell fruit-cell" title="Trái thanh long đã vuốt">
+          <span class="hud-stat-icon"><i data-lucide="dragonfruit"></i></span>
+          <span class="hud-stat-num"><b id="hud-fruits">0</b> <small>TRÁI</small></span>
+        </div>
+        <div class="hud-stat-cell online-cell" title="Thợ vườn trực tuyến">
+          <span class="hud-online-dot"></span>
+          <span class="hud-stat-num"><b id="hud-online">12</b> <small>ONLINE</small></span>
+        </div>
+      </div>
+
+      <div class="hud-quick-actions">
+        <!-- Nút Chat nổi trên thanh công cụ -->
+        <button id="mobile-chat-btn" class="hud-tool-btn nav-chat-btn" title="Trò Chuyện (Chat)">
+          <span class="btn-icon"><i data-lucide="message-square"></i></span>
+          <span class="btn-label">Chat</span>
+          <span id="chat-unread-dot" class="chat-unread-dot hidden"></span>
+        </button>
+        <button id="open-outfit-btn" class="hud-tool-btn" title="Đổi Trang Phục & Nón">
+          <span class="btn-icon"><i data-lucide="shirt"></i></span>
+          <span class="btn-label">Trang Phục</span>
+        </button>
+        <button id="open-leaderboard-btn" class="hud-tool-btn" title="Bảng Vàng Thợ Vườn">
+          <span class="btn-icon"><i data-lucide="trophy"></i></span>
+          <span class="btn-label">Bảng Vàng</span>
+        </button>
+        <button id="toggle-more-btn" class="hud-tool-btn hud-more-toggle" title="Cài Đặt Thêm (Âm Thanh / Chong Đèn / Phím Ảo / GPU / Camera)">
+          <span class="btn-icon"><i data-lucide="settings"></i></span>
+        </button>
+
+        <!-- Extra Tools Drawer (Gộp ngăn nắp trên Mobile trong nút ⚙️, dàn hàng ngang trên Desktop) -->
+        <div id="hud-extra-tools" class="hud-extra-tools">
+          <button id="toggle-time-btn" class="hud-tool-btn" title="Chuyển Ngày / Đêm Chong Đèn">
+            <span class="btn-icon" id="time-icon"><i data-lucide="moon"></i></span>
+            <span class="btn-label" id="time-label">Chong Đèn</span>
+          </button>
+          <button id="toggle-sound-btn" class="hud-tool-btn hud-sound-btn" title="Bật/Tắt Âm Thanh">
+            <span class="btn-icon" id="sound-icon"><i data-lucide="volume-2"></i></span>
+            <span class="btn-label">Âm Thanh</span>
+          </button>
+          <button id="toggle-touch-btn" class="hud-tool-btn active" title="Bật/Tắt Phím Ảo (Gamepad)">
+            <span class="btn-icon"><i data-lucide="gamepad-2"></i></span>
+            <span class="btn-label">Phím Ảo</span>
+          </button>
+          <button id="toggle-perf-btn" class="hud-tool-btn" title="Tiết Kiệm GPU / Siêu Mượt">
+            <span class="btn-icon" id="perf-icon"><i data-lucide="zap"></i></span>
+            <span class="btn-label" id="perf-label">Tiết Kiệm GPU</span>
+          </button>
+          <button id="toggle-camera-btn" class="hud-tool-btn" title="Đổi Góc Nhìn 3D">
+            <span class="btn-icon"><i data-lucide="camera"></i></span>
+            <span class="btn-label">Góc Nhìn</span>
+          </button>
+          <button id="toggle-fullscreen-btn" class="hud-tool-btn" title="Bật/Tắt Toàn Màn Hình">
+            <span class="btn-icon" id="fullscreen-icon"><i data-lucide="maximize"></i></span>
+            <span class="btn-label" id="fullscreen-label">Toàn Màn Hình</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Circular Tactical Game Radar (Không Có Hộp Card Bao Bọc!) -->
+    <div class="game-radar-wrap" id="minimap-panel">
+      <div class="radar-disc">
+        <canvas id="minimap-canvas" width="136" height="136"></canvas>
+        <div class="radar-sweep-beam"></div>
+        <div class="compass-marker comp-n">B</div>
+        <div class="compass-marker comp-s">N</div>
+        <div class="compass-marker comp-e">Đ</div>
+        <div class="compass-marker comp-w">T</div>
+      </div>
+      <div class="radar-tag"><i data-lucide="map-pin"></i> LONG AN • LÔ 01</div>
+    </div>
+
+    <!-- Proximity Action Prompt (Hiện khi đứng gần trụ thanh long có trái) -->
+    <div id="interact-prompt" class="interact-prompt hidden">
+      <div class="prompt-key-badge">
+        <span class="key-letter">E</span>
+        <span class="key-glow"></span>
+      </div>
+      <div class="prompt-text-group">
+        <div class="prompt-headline">VUỐT NGOE THANH LONG</div>
+        <div class="prompt-subtext">Bấm phím <b>[E]</b> hoặc Chạm vào đây (<b id="prompt-fruit-count">0</b> trái chưa vuốt)</div>
+      </div>
+      <div class="prompt-action-pill">BẮT ĐẦU ➜</div>
+    </div>
+
+    <!-- Close-Up 3D Ear Stroking Mode UI (Chế độ phòng tạo hình & vuốt ngoe thanh long 3D - Thuần Game HUD) -->
+    <div id="closeup-ui" class="closeup-overlay hidden">
+      <!-- Top Quick Return / Exit Button (Chuẩn Mobile & Desktop) -->
+      <button id="closeup-top-back-btn" class="closeup-top-back-btn" title="Rời Vườn / Trở lại dạo vườn (Phím ESC)" aria-label="Rời Vườn">
+        <i data-lucide="arrow-left"></i>
+        <span>Rời Vườn</span>
+      </button>
+
+      <!-- Floating Game Objective HUD (Không Dùng Card!) -->
+      <div class="closeup-game-objective">
+        <div class="objective-badge"><i data-lucide="shield-check"></i> TIÊU CHUẨN VIETGAP LOẠI 1</div>
+        <div class="objective-title">NGHỆ THUẬT VUỐT NGOE 3D</div>
+        <div class="objective-meter-row">
+          <div class="objective-track">
+            <div id="closeup-progress-fill" class="objective-fill" style="width: 0%"></div>
+            <div class="closeup-segments-track" id="closeup-segments-container">
+              <div class="ear-segment" data-idx="0"></div>
+              <div class="ear-segment" data-idx="1"></div>
+              <div class="ear-segment" data-idx="2"></div>
+              <div class="ear-segment" data-idx="3"></div>
+              <div class="ear-segment" data-idx="4"></div>
+              <div class="ear-segment" data-idx="5"></div>
+              <div class="ear-segment" data-idx="6"></div>
+              <div class="ear-segment" data-idx="7"></div>
+              <div class="ear-segment" data-idx="8"></div>
+              <div class="ear-segment" data-idx="9"></div>
+              <div class="ear-segment" data-idx="10"></div>
+              <div class="ear-segment" data-idx="11"></div>
+            </div>
+          </div>
+          <div class="objective-score"><b id="closeup-ear-count">0/12</b> TAI</div>
+        </div>
+        <div class="objective-hint"><i data-lucide="hand"></i> Miết chuột / chạm tay từ gốc lên chóp tai để uốn cong • Kéo xoay 360°</div>
+      </div>
+
+      <!-- Luxury Embossed VietGAP Wax Seal / Stamp on Completion (Sleek Top Floating Banner - Never Obscures Fruit) -->
+      <div id="closeup-stamp" class="closeup-stamp hidden">
+        <div class="stamp-glow-flare"></div>
+        <div class="stamp-inner-seal">
+          <div class="stamp-stars">★★★★★</div>
+          <div class="stamp-text-group">
+            <div class="stamp-grade-title">LOẠI 1 XUẤT KHẨU</div>
+            <div class="stamp-sub">TIÊU CHUẨN VIETGAP QUỐC TẾ</div>
+          </div>
+          <div class="stamp-reward">+25.000 VNĐ</div>
+        </div>
+      </div>
+
+      <!-- Floating In-Game Hotkey Action Dock (Icon Only - Siêu Gọn Nhẹ & Chuẩn Mobile) -->
+      <div class="closeup-hotkey-dock">
+        <button id="rotate-left-btn" class="hotkey-action-btn hotkey-icon-only" title="Xoay Trái (Phím A)" aria-label="Xoay Trái">
+          <i data-lucide="rotate-ccw"></i>
+          <span class="hk-key">A</span>
+        </button>
+
+        <button id="quick-spray-btn" class="hotkey-action-btn hotkey-spray hotkey-icon-only" title="Kích Bung Ngoe (Phím Space)" aria-label="Kích Bung Ngoe">
+          <i data-lucide="droplets"></i>
+          <span class="hk-key">Space</span>
+        </button>
+
+        <button id="rotate-right-btn" class="hotkey-action-btn hotkey-icon-only" title="Xoay Phải (Phím D)" aria-label="Xoay Phải">
+          <i data-lucide="rotate-cw"></i>
+          <span class="hk-key">D</span>
+        </button>
+
+        <button id="exit-closeup-btn" class="hotkey-action-btn hotkey-exit hotkey-icon-only" title="Rời Vườn / Trở lại dạo vườn (Phím ESC)" aria-label="Rời Vườn">
+          <i data-lucide="log-out"></i>
+          <span class="hk-key">ESC</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Cinematic Garden Exit & Transition FX Overlay (Hiệu ứng rời vườn mượt mà) -->
+    <div id="garden-transition-fx" class="garden-transition-fx"></div>
+
+    <!-- Responsive Cyber-Disc Movement Controller (Bộ Nút Điều Hướng Tròn Sịn Sò - Mặc định ẩn trên Desktop) -->
+    <div id="dpad-container" class="dpad-container hidden-on-desktop">
+      <div class="dpad-disc-circle">
+        <button type="button" tabindex="-1" class="dpad-btn dpad-dir dpad-up" id="dpad-up" title="Tiến Lên (W / ▲)"><i data-lucide="chevron-up"></i></button>
+        <button type="button" tabindex="-1" class="dpad-btn dpad-dir dpad-left" id="dpad-left" title="Qua Trái (A / ◄)"><i data-lucide="chevron-left"></i></button>
+        <button type="button" tabindex="-1" class="dpad-btn dpad-center-btn" id="dpad-sprint" title="Tăng Tốc (Shift / ⚡)">
+          <i data-lucide="zap" class="sprint-icon"></i>
+          <span class="sprint-sub">CHẠY</span>
+        </button>
+        <button type="button" tabindex="-1" class="dpad-btn dpad-dir dpad-right" id="dpad-right" title="Qua Phải (D / ►)"><i data-lucide="chevron-right"></i></button>
+        <button type="button" tabindex="-1" class="dpad-btn dpad-dir dpad-down" id="dpad-down" title="Lùi Lại (S / ▼)"><i data-lucide="chevron-down"></i></button>
+      </div>
+    </div>
+
+    <!-- Virtual Joystick for Mobile / Touch (Nửa trái màn hình - Di chuyển kiểu Liên Quân) -->
+    <div id="joystick-zone" class="joystick-zone">
+      <div id="joystick-base" class="joystick-base">
+        <div id="joystick-stick" class="joystick-stick"></div>
+      </div>
+    </div>
+
+    <!-- Virtual Camera Orbit Controller for Mobile / Touch (Nửa phải màn hình - Vuốt xoay 360 độ toàn cảnh) -->
+    <div id="camera-touch-zone" class="camera-touch-zone"></div>
+
+    <!-- Mobile Toast Chat Bubble (Xem nhanh tin nhắn mới) -->
+    <div id="mobile-chat-bubble" class="mobile-chat-bubble hidden"></div>
+
+    <!-- In-Game Transparent Chat HUD (Chuẩn Game MMORPG / Minecraft - Hoàn Toàn Không Card!) -->
+    <div id="chat-panel" class="game-chat-hud">
+      <div class="chat-mobile-header">
+        <div class="chat-mobile-title"><i data-lucide="message-square"></i> TRÒ CHUYỆN VƯỜN</div>
+        <button id="close-chat-mobile-btn" class="chat-mobile-close" title="Đóng chat"><i data-lucide="x"></i></button>
+      </div>
+      <div id="chat-messages" class="chat-messages"></div>
+      <div class="chat-input-bar">
+        <input type="text" id="chat-input" placeholder="Nhấn [Enter] để trò chuyện..." maxlength="80">
+        <div class="quick-emotes-strip">
+          <button class="quick-chat-chip" data-msg="Hàng bên này nhiều trái chín đẹp lắm bà con ơi!" title="Yêu thích"><i data-lucide="heart"></i></button>
+          <button class="quick-chat-chip" data-msg="Vuốt nhẹ tay kẻo gãy ngoe nha mọi người!" title="Vuốt nhẹ tay"><i data-lucide="sparkles"></i></button>
+          <button class="quick-chat-chip" data-msg="Chong đèn đêm lên nhìn vườn lung linh quá!" title="Lung linh"><i data-lucide="lightbulb"></i></button>
+          <button class="quick-chat-chip" data-msg="Đủ chỉ tiêu xuất khẩu đi Dubai rồi anh em ơi!" title="Xuất khẩu"><i data-lucide="rocket"></i></button>
+        </div>
+        <button id="chat-send-btn" title="Gửi (Enter)"><i data-lucide="send"></i></button>
+      </div>
+    </div>
+
+    <!-- Minimalist Bottom Action Bar (Thanh Điều Khiển Bàn Phím Đẳng Cấp) -->
+    <div id="controls-hud" class="controls-hud">
+      <div class="hud-pill-key"><span class="k-badge">W</span><span class="k-badge">A</span><span class="k-badge">S</span><span class="k-badge">D</span> <span class="k-lbl">Di chuyển</span></div>
+      <div class="hud-pill-sep"></div>
+      <div class="hud-pill-key"><span class="k-badge">Shift</span> <span class="k-lbl">Chạy nhanh</span></div>
+      <div class="hud-pill-sep"></div>
+      <div class="hud-pill-key"><span class="k-icon"><i data-lucide="mouse-pointer-2"></i></span> <span class="k-lbl">Kéo chuột xoay</span></div>
+      <div class="hud-pill-sep"></div>
+      <div class="hud-pill-key"><span class="k-badge primary-key">E</span> <span class="k-lbl">Vuốt ngoe</span></div>
+      <div class="hud-pill-sep"></div>
+      <button id="dismiss-guide-btn" class="guide-close-btn" title="Tắt thanh hướng dẫn (Phím H)"><i data-lucide="x"></i></button>
+    </div>
+
+    <!-- Floating Re-open Pill when Guide is Hidden -->
+    <button id="reopen-guide-btn" class="guide-reopen-pill hidden" title="Hiện hướng dẫn thao tác (Phím H)">
+      <i data-lucide="keyboard"></i>
+      <span>Phím tắt (H)</span>
+    </button>
+  </div>
+
+  <!-- Leaderboard Modal (Bảng Vàng Vinh Danh Thợ Vườn) -->
+  <div id="leaderboard-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-title-lockup">
+          <span class="modal-trophy-icon"><i data-lucide="trophy"></i></span>
+          <div>
+            <h2>BẢNG VÀNG THỢ VƯỜN XUẤT SẮC</h2>
+            <div class="modal-sub">Hợp tác xã Thanh Long Quốc Tế • Xếp hạng sản lượng xuất khẩu hôm nay</div>
+          </div>
+        </div>
+        <button id="close-leaderboard-btn" class="close-btn"><i data-lucide="x"></i></button>
+      </div>
+      <div id="leaderboard-rows" class="leaderboard-rows"></div>
+    </div>
+  </div>
+
+  <!-- Wardrobe / Outfit Modal (Thay Trang Phục & Đổi Nón Bất Cứ Lúc Nào) -->
+  <div id="outfit-modal" class="modal-overlay hidden">
+    <div class="modal-box outfit-modal-box">
+      <div class="modal-head">
+        <div class="modal-title-lockup">
+          <span class="modal-trophy-icon" style="color: var(--rose-core);"><i data-lucide="shirt"></i></span>
+          <div>
+            <h2>TỦ ĐỒ & TRANG PHỤC THỢ VƯỜN</h2>
+            <div class="modal-sub">Thay đổi màu áo bà ba & kiểu nón bất cứ lúc nào trong vườn</div>
+          </div>
+        </div>
+        <button id="close-outfit-btn" class="close-btn"><i data-lucide="x"></i></button>
+      </div>
+
+      <div class="login-form-body">
+        <div class="form-group">
+          <label><span class="label-icon"><i data-lucide="shirt"></i></span> Sắc Phục Áo Bà Ba:</label>
+          <div class="color-picker-row" id="outfit-color-picker">
+            <button type="button" class="color-swatch" data-color="#e84393" style="--swatch-color: #e84393;" title="Hồng Sen"></button>
+            <button type="button" class="color-swatch" data-color="#0984e3" style="--swatch-color: #0984e3;" title="Xanh Biển"></button>
+            <button type="button" class="color-swatch" data-color="#00b894" style="--swatch-color: #00b894;" title="Xanh Lá Mạ"></button>
+            <button type="button" class="color-swatch" data-color="#fdcb6e" style="--swatch-color: #fdcb6e;" title="Vàng Lúa"></button>
+            <button type="button" class="color-swatch" data-color="#6c5ce7" style="--swatch-color: #6c5ce7;" title="Tím Hoa Cà"></button>
+            <button type="button" class="color-swatch" data-color="#d63031" style="--swatch-color: #d63031;" title="Đỏ Mận"></button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><span class="label-icon"><i data-lucide="crown"></i></span> Trang Phục Nón:</label>
+          <div class="hat-picker-row" id="outfit-hat-picker">
+            <button type="button" class="hat-btn" data-hat="nonla">
+              <span class="hat-icon"><i data-lucide="sun"></i></span>
+              <span class="hat-name">Nón Lá Truyền Thống</span>
+            </button>
+            <button type="button" class="hat-btn" data-hat="taibeo">
+              <span class="hat-icon"><i data-lucide="compass"></i></span>
+              <span class="hat-name">Mũ Tai Bèo Nông Dân</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="preview-costume-tag" id="outfit-preview-tag">
+          Đang mặc: <b id="outfit-preview-label">Áo Hồng Sen • Nón Lá</b>
+        </div>
+
+        <button id="save-outfit-btn" class="primary-3d-btn" style="margin-top: 14px;">
+          <span class="btn-shine"></span>
+          <span class="btn-text">HOÀN TẤT & ĐÓNG TỦ ĐỒ <i data-lucide="arrow-right"></i></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification (Dynamic Floating Island Pill) -->
+  <div id="toast-box" class="toast-box hidden"></div>
+
+  <!-- High-Performance 3D Engine & Scripts (Deferred so Welcome Screen renders in 0ms) -->
+  <script src="three.min.js"></script>
+  <script src="GLTFLoader.js"></script>
+  <script src="model_data.js" defer></script>
+  <script src="audio.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
